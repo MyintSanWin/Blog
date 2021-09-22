@@ -1,8 +1,8 @@
 <x-layout>
 
-        <article>
+        <article style="padding-top: 5px;">
 
-        {{$post->title}}
+        {!!$post->title!!}
          <div style="padding-top: 15px; ">
              {!! $post->body !!}
          </div>
