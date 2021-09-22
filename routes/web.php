@@ -2,6 +2,8 @@
 
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\Environment\Console;
@@ -23,7 +25,7 @@ use Symfony\Component\VarDumper\VarDumper;
 Route::get('/', function () {
         
         return view('posts',[
-            'posts'=> Post::all()
+            'posts'=> Post::with('category')->get()
         ]);
    
 });
@@ -35,7 +37,7 @@ Route::get('posts/{post:slug}',function(Post $post){
   ]); 
 });
 
-Route::get('categories/{category}', function (Category $category){
+Route::get('categories/{category:slug}', function (Category $category){
   return view('posts', [
     'posts' => $category->posts
   ]);
