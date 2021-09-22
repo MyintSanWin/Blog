@@ -3,6 +3,10 @@
         <article style="padding-top: 5px;">
 
         {!!$post->title!!}
+
+        <p>
+            <a href="#">{{$post->category->name}}</a>
+          </p>
          <div style="padding-top: 15px; ">
              {!! $post->body !!}
          </div>
