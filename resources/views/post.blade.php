@@ -5,8 +5,8 @@
         {!!$post->title!!}
 
         <p>
-        By <a href="#">{{$post->user->name}}</a> in  <a href="/categories/{{$post->category->slug}}">{{$post->category->name}}</a>
-          </p>
+          By <a href="/authors/{{$post->author->username}}">{{$post->author->username}}</a> in  <a href="/categories/{{$post->category->slug}}">{{$post->category->name}}</a>
+        </p>
          <div style="padding-top: 15px; ">
              {!! $post->body !!}
          </div>
