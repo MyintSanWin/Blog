@@ -32,7 +32,7 @@ Route::get('/', function () {
 
         ]);
    
-});
+})->name('home');
 
 Route::get('posts/{post:slug}',function(Post $post){
     
@@ -48,7 +48,7 @@ Route::get('categories/{category:slug}', function (Category $category){
     'categories' => Category::all()
   ]);
 
-});
+})->name('category');
 
 
 Route::get('authors/{author:username}', function (User $author ){
