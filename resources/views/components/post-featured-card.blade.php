@@ -32,9 +32,9 @@ class="transition-colors duration-300 hover:bg-gray-100 border border-black bord
         </header>
 
         <div class="text-sm mt-2">
-                <p>
-                    {{$post->excerpt}}
-                </p>
+                
+                    {!!$post->excerpt!!}
+                
         </div>
 
         <footer class="flex justify-between items-center mt-8">

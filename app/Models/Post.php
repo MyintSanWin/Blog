@@ -4,11 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Post extends Model
 {
     use HasFactory;
     protected $with = ['category', 'author'];
+
+    public function scopeFilter($query, array $filters){
+
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
+
+            $query
+            ->where('title', 'like', '%' . $search . '%')
+            ->orWhere('body', 'like', '%' . $search. '%'));
+    }
     
     protected $fillable = ['title', 'excerpt', 'body'];
 
