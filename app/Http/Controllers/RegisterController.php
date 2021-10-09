@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -23,8 +24,8 @@ class RegisterController extends Controller
        ]);
 
 
-       User::create($attribute);
-
+      $user = User::create($attribute);
+       Auth::login($user);
       //go to layout.blade.php
        return redirect('/')->with('success', 'Your account has been created');
    }
