@@ -18,7 +18,7 @@
                         <div class="ml-3 text-left">
                           
                                 <h5 class="font-bold">
-                                    <a href="/?authors={{$post->author-username}}">
+                                    <a href="/?authors={{$post->author->username}}">
                                         {{$post->author->name}}
                                     </a>
                                
@@ -55,9 +55,16 @@
                         {{$post->title}}
                     </h1>
 
-                    <div class="space-y-4 lg:text-lg leading-loose">
-                        {{$post->body}}
+                    <div class="space-y-4 lg:text-lgleading-loose">
+                        {!!$post->body!!}
                     </div>
+                </div>
+
+                <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                    <x-post-comment/>
+                    <x-post-comment/>
+                    <x-post-comment/>
+                  </section>
                 
             </article>
         </main>

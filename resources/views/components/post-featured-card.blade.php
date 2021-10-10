@@ -61,4 +61,6 @@ class="transition-colors duration-300 hover:bg-gray-100 border border-black bord
         </footer>
     </div>
 </div>
+
+
 </article>
