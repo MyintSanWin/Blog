@@ -9,49 +9,51 @@ use Illuminate\Support\Arr;
 class Post extends Model
 {
     use HasFactory;
-    protected $with = ['category', 'author'];
+    // protected $with = ['category', 'author'];
 
-    public function scopeFilter($query, array $filters){
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, fn ($query, $search) =>
 
-        $query->when($filters['search'] ?? false, fn($query, $search) =>
-
-            $query->where(fn($query) =>
+            $query->where(fn ($query) =>
             $query->where('title', 'like', '%' . $search . '%')
             ->orWhere('body', 'like', '%' . $search. '%')));
 
            
-            $query->when($filters['category'] ?? false, fn($query, $category) =>
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
 
-            $query->whereHas('category', fn($query) =>
+            $query->whereHas('category', fn ($query) =>
             
             $query->where('slug', $category))
+        );
 
-            
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
 
-    );
-
-    $query->when($filters['author'] ?? false, fn($query, $author) =>
-
-    $query->whereHas('author', fn($query) =>
+    $query->whereHas('author', fn ($query) =>
     
     $query->where('username', $author))
-);
-
-           
+        );
     }
     
     protected $fillable = ['title', 'excerpt', 'body'];
 
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function author(){
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }
