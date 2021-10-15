@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Response as FacadesResponse;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class PostController extends Controller
 {
@@ -25,6 +30,11 @@ class PostController extends Controller
         return view('posts.show', [
             'post'=> $post
         ]);
+    }
+
+    public function create()
+    {
+        return view('posts.create');
     }
 
     //index, show, create, store, edit , update, destroy

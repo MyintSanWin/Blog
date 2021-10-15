@@ -27,6 +27,22 @@ use Symfony\Component\VarDumper\VarDumper;
 |
 */
 
+// Route::post('newsletter', function () {
+//     request()->validate(['email' => 'required|email']);
+
+//     $mailchimp =new \MailchimpMarketin\ApiClient();
+//     $mailchimp->setConfig([
+//         'apiKey' => config('servieces.mailchimp.key'),
+//         'server' => 'us6'
+//     ]);
+
+//     $response = $mailchimp->Lists->addListMember('d3c0c95629', [
+//         'email_address' => request('email'),
+//         'status' => 'subcribed'
+//     ]);
+//     return redirect('/')->with('success', 'You are now signed up for our newsletters!');
+// });
+
 Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
@@ -40,3 +56,6 @@ Route::get('/login', [SessionController::class, 'create'])->middleware('guest');
 Route::post('/login', [SessionController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [SessionController::class, 'destroy'])->middleware('auth');
+
+
+Route::get('admin/posts/create', [PostController::class, 'create'])->middleware('admin');
