@@ -7,7 +7,10 @@ use App\Models\Post;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response as FacadesResponse;
+use Illuminate\Validation\Rule;
+use SebastianBergmann\Environment\Console;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -36,6 +39,34 @@ class PostController extends Controller
     {
         return view('posts.create');
     }
+
+    public function store()
+    {
+        $attribute = request()->validate([
+           'title' => 'required',
+           'slug' => ['required', Rule::unique('posts', 'slug')],
+           'excerpt' => 'required',
+           'body' => 'required',
+           'category_id' => ['required',Rule::exists('categories', 'id')]
+       ]);
+
+    
+        $post = new Post;
+        $post->title = $attribute['title'];
+        $post->slug = $attribute['slug'];
+        $post->excerpt = $attribute['excerpt'];
+        $post->body = $attribute['body'];
+        $post->category_id = $attribute['category_id'];
+        $post->user_id = Auth::id();
+
+       
+        $post->save();
+    
+        return redirect('/')->with('success', 'Your post has been created');
+    }
+     
+      
+    
 
     //index, show, create, store, edit , update, destroy
 }
