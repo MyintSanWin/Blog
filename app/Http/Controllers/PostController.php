@@ -44,6 +44,7 @@ class PostController extends Controller
     {
         $attribute = request()->validate([
            'title' => 'required',
+           'thumbnail' => 'required|image',
            'slug' => ['required', Rule::unique('posts', 'slug')],
            'excerpt' => 'required',
            'body' => 'required',
@@ -53,6 +54,10 @@ class PostController extends Controller
     
         $post = new Post;
         $post->title = $attribute['title'];
+        $image = request('thumbnail');
+        $image_name = uniqid()."_".$image->getClientOriginalname();
+        $image->move(public_path('images/posts'), $image_name);
+        $post->thumbnail = $image_name;
         $post->slug = $attribute['slug'];
         $post->excerpt = $attribute['excerpt'];
         $post->body = $attribute['body'];
