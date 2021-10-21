@@ -23,14 +23,26 @@
             <div class="mt-8 md:mt-0 flex items-center">
 
                 @auth
-                <img src="https://i.pravatar.cc/60?u={{ auth()->id() }}" alt="" width="40" height="40"
-                    class="rounded-full">
-                <span class="text-xs font-bold uppercase">welcome , {{auth()->user()->name}} !! </span>
 
-                <form action="/logout" method="POST" class="text-xs font-semibold text-blue-500 ml-6">
-                    @csrf
-                    <button type="submit">Log Out</button>
-                </form>
+                {{-- <img src="https://i.pravatar.cc/60?u={{ auth()->id() }}" alt="" width="40" height="40"
+                    class="rounded-full"> --}}
+                <x-dropdown>
+                    <x-dropdown-item href="/admin/dashboard">Dashboard</x-dropdown-item>
+                    <x-dropdown-item href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post
+                    </x-dropdown-item>
+                    <x-dropdown-item href="#" x-data="{}"
+                        @click.prevent="document.querySelector('#logout-form').submit()">Log
+                        Out</x-dropdown-item>
+                    <form id="logout-form" action="/logout" method="POST" class="hidden">
+                        @csrf
+
+                    </form>
+                    <x-slot name="trigger">
+                        <button class="text-xs font-bold uppercase">welcome , {{auth()->user()->name}} !! </button>
+                    </x-slot>
+                </x-dropdown>
+
+
 
                 @else
                 <a href="/register" class="text-xs font-bold uppercase">Register</a>
