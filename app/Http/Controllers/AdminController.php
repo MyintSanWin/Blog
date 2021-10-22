@@ -79,9 +79,17 @@ class AdminController extends Controller
             $image->move(public_path('images/posts'), $image_name);
             $attribute['thumbnail']= $image_name;
         }
+
+       
  
         //var_dump($attribute['thumbnail']);
         $post->update($attribute);
         return back()->with('success', 'Post Updated');
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return back()->with('success', 'Your Posted have been deleted');
     }
 }
