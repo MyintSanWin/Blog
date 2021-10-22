@@ -2,36 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response as FacadesResponse;
 use Illuminate\Validation\Rule;
-use SebastianBergmann\Environment\Console;
-use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class PostController extends Controller
+class AdminController extends Controller
 {
+    //
     public function index()
     {
-        return view('posts.index', [
-       
-        'posts'=> Post::latest()->filter(
-            request(['search', 'category', 'author'])
-        )->paginate(6)->withQueryString()
-        
-
-    ]);
-    }
-
-    public function show(Post $post)
-    {
-        return view('posts.show', [
-            'post'=> $post
+        return view('admin.posts.index', [
+            'posts' => Post::paginate(59)
         ]);
     }
 
@@ -39,6 +21,7 @@ class PostController extends Controller
     {
         return view('admin.posts.create');
     }
+
 
     public function store()
     {
@@ -69,9 +52,36 @@ class PostController extends Controller
     
         return redirect('/')->with('success', 'Your post has been created');
     }
-     
-      
-    
 
-    //index, show, create, store, edit , update, destroy
+    public function edit(Post $post)
+    {
+        return view('admin.posts.edit', ['post' => $post
+
+        ]);
+    }
+
+    public function update(Post $post)
+    {
+        $attribute = request()->validate([
+            'title' => 'required',
+            'thumbnail' => 'image',
+            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required',Rule::exists('categories', 'id')]
+        ]);
+       
+        //var_dump($attribute['thumbnail']);
+
+        if (isset($attribute['thumbnail'])) {
+            $image = $attribute['thumbnail'];
+            $image_name = uniqid()."_".$image->getClientOriginalname();
+            $image->move(public_path('images/posts'), $image_name);
+            $attribute['thumbnail']= $image_name;
+        }
+ 
+        //var_dump($attribute['thumbnail']);
+        $post->update($attribute);
+        return back()->with('success', 'Post Updated');
+    }
 }

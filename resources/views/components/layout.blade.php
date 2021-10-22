@@ -27,7 +27,8 @@
                 {{-- <img src="https://i.pravatar.cc/60?u={{ auth()->id() }}" alt="" width="40" height="40"
                     class="rounded-full"> --}}
                 <x-dropdown>
-                    <x-dropdown-item href="/admin/dashboard">Dashboard</x-dropdown-item>
+                    <x-dropdown-item href="/admin/posts" :active="request()->is('admin/posts')">Dashboard
+                    </x-dropdown-item>
                     <x-dropdown-item href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post
                     </x-dropdown-item>
                     <x-dropdown-item href="#" x-data="{}"
